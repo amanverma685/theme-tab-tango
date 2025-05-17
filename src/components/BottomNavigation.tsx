@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 
@@ -8,6 +8,7 @@ interface NavItem {
   path: string;
   label: string;
   icon: JSX.Element;
+  onClick?: () => void;
 }
 
 const BottomNavigation = ({ items }: { items: NavItem[] }) => {
@@ -51,9 +52,9 @@ const BottomNavigation = ({ items }: { items: NavItem[] }) => {
         const isActive = activeTab === item.path;
         
         return (
-          <Link
+          <button
             key={item.path}
-            to={item.path}
+            onClick={item.onClick}
             className={cn(
               "flex flex-col items-center justify-center w-full h-full",
               "transition-all duration-300",
@@ -80,7 +81,7 @@ const BottomNavigation = ({ items }: { items: NavItem[] }) => {
                 initial={false}
               />
             )}
-          </Link>
+          </button>
         );
       })}
     </motion.div>

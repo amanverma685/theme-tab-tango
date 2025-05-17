@@ -1,9 +1,10 @@
 
 import { ReactNode, useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Home, User, PlusCircle } from 'lucide-react';
 import BottomNavigation from './BottomNavigation';
 import { motion } from 'framer-motion';
+import ModeSelector from './ModeSelector';
 
 interface MobileFrameProps {
   children: ReactNode;
@@ -11,7 +12,9 @@ interface MobileFrameProps {
 
 const MobileFrame = ({ children }: MobileFrameProps) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('/');
+  const [isModeSelectorOpen, setIsModeSelectorOpen] = useState(false);
   
   useEffect(() => {
     setActiveTab(location.pathname);
@@ -25,19 +28,22 @@ const MobileFrame = ({ children }: MobileFrameProps) => {
       path: '/',
       label: 'Home',
       icon: <Home size={20} />,
-      color: 'bg-red-500'
+      color: 'bg-red-500',
+      onClick: () => navigate('/')
     },
     {
       path: '/add',
       label: 'Add',
       icon: <PlusCircle size={20} />,
-      color: 'bg-green-500'
+      color: 'bg-green-500',
+      onClick: () => setIsModeSelectorOpen(true)
     },
     {
       path: '/profile',
       label: 'Profile',
       icon: <User size={20} />,
-      color: 'bg-yellow-500'
+      color: 'bg-yellow-500',
+      onClick: () => navigate('/profile')
     },
   ];
 
@@ -70,6 +76,11 @@ const MobileFrame = ({ children }: MobileFrameProps) => {
           <BottomNavigation items={navItems} />
         </div>
       )}
+
+      <ModeSelector 
+        isOpen={isModeSelectorOpen}
+        onClose={() => setIsModeSelectorOpen(false)}
+      />
     </div>
   );
 };

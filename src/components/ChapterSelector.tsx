@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, CheckSquare, Lock } from 'lucide-react';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
-import { useNavigate } from 'react-router-dom';
+import QuestionsByMark from './QuestionsByMark';
 
 interface ChapterSelectorProps {
   isOpen: boolean;
@@ -12,8 +12,8 @@ interface ChapterSelectorProps {
 }
 
 const ChapterSelector = ({ isOpen, onClose }: ChapterSelectorProps) => {
-  const navigate = useNavigate();
   const [selectedChapters, setSelectedChapters] = useState<string[]>(['4', '5', '6']);
+  const [isQuestionsByMarkOpen, setIsQuestionsByMarkOpen] = useState(false);
   
   const chapters = [
     { id: '1', name: '1. वास्तविक संख्याएँ (Real Numbers)', locked: true },
@@ -39,80 +39,92 @@ const ChapterSelector = ({ isOpen, onClose }: ChapterSelectorProps) => {
     );
   };
 
+  const handleProceed = () => {
+    onClose();
+    setIsQuestionsByMarkOpen(true);
+  };
+
   return (
-    <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <SheetContent className="w-full sm:max-w-md p-0 bg-background">
-        <div className="h-full overflow-y-auto pb-20">
-          <div className="sticky top-0 z-20 bg-background p-4 border-b">
-            <div className="flex items-center justify-between">
-              <button onClick={onClose} className="text-foreground p-1">
-                <ArrowLeft size={24} className="text-brand-600" />
-              </button>
-              <h2 className="text-xl font-bold text-brand-600">Select Chapters</h2>
-              <div className="w-8"></div> {/* Spacer for alignment */}
+    <>
+      <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
+        <SheetContent className="w-full sm:max-w-md p-0 bg-background">
+          <div className="h-full overflow-y-auto pb-20">
+            <div className="sticky top-0 z-20 bg-background p-4 border-b">
+              <div className="flex items-center justify-between">
+                <button onClick={onClose} className="text-foreground p-1">
+                  <ArrowLeft size={24} className="text-[#FF5722]" />
+                </button>
+                <h2 className="text-xl font-bold text-[#FF5722]">Select Chapters</h2>
+                <div className="w-8"></div> {/* Spacer for alignment */}
+              </div>
             </div>
-          </div>
 
-          <div className="p-4">
-            <motion.div 
-              className="p-4 mb-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm flex items-center justify-between"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <span className="font-medium">Select All</span>
-              <Lock size={20} className="text-gray-400" />
-            </motion.div>
-
-            {chapters.map((chapter, index) => (
-              <motion.div
-                key={chapter.id}
+            <div className="p-4">
+              <motion.div 
+                className="p-4 mb-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm flex items-center justify-between"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-                className={`p-4 mb-4 rounded-lg shadow-sm flex items-center justify-between ${
-                  chapter.locked 
-                    ? 'bg-gray-100 dark:bg-gray-700 text-gray-500' 
-                    : selectedChapters.includes(chapter.id)
-                      ? 'bg-white dark:bg-gray-800 border-2 border-brand-600'
-                      : 'bg-white dark:bg-gray-800'
-                }`}
-                onClick={() => toggleChapter(chapter.id)}
               >
-                <span className="flex-1">{chapter.name}</span>
-                <div className="ml-2 flex-shrink-0">
-                  {chapter.locked ? (
-                    <Lock size={20} className="text-gray-400" />
-                  ) : (
-                    <div className={`w-6 h-6 flex items-center justify-center border rounded ${
-                      selectedChapters.includes(chapter.id) ? 'bg-brand-600 border-brand-600' : 'border-gray-300'
-                    }`}>
-                      {selectedChapters.includes(chapter.id) && (
-                        <CheckSquare size={16} className="text-white" />
-                      )}
-                    </div>
-                  )}
-                </div>
+                <span className="font-medium">Select All</span>
+                <Lock size={20} className="text-gray-400" />
               </motion.div>
-            ))}
-          </div>
 
-          <div className="fixed bottom-0 left-0 right-0 bg-background p-4 border-t flex justify-between space-x-2 max-w-md mx-auto">
-            <Button 
-              className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800"
-              onClick={onClose}
-            >
-              Add Blueprint
-            </Button>
-            <Button 
-              className="flex-1 bg-brand-600 hover:bg-brand-700"
-              onClick={() => navigate('/questions')}
-            >
-              Proceed Without Blueprint
-            </Button>
+              {chapters.map((chapter, index) => (
+                <motion.div
+                  key={chapter.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                  className={`p-4 mb-4 rounded-lg shadow-sm flex items-center justify-between ${
+                    chapter.locked 
+                      ? 'bg-gray-100 dark:bg-gray-700 text-gray-500' 
+                      : selectedChapters.includes(chapter.id)
+                        ? 'bg-white dark:bg-gray-800 border-2 border-[#FF5722]'
+                        : 'bg-white dark:bg-gray-800 border border-gray-200'
+                  }`}
+                  onClick={() => toggleChapter(chapter.id)}
+                >
+                  <span className="flex-1">{chapter.name}</span>
+                  <div className="ml-2 flex-shrink-0">
+                    {chapter.locked ? (
+                      <Lock size={20} className="text-gray-400" />
+                    ) : (
+                      <div className={`w-6 h-6 flex items-center justify-center border rounded ${
+                        selectedChapters.includes(chapter.id) ? 'bg-[#FF5722] border-[#FF5722]' : 'border-gray-300'
+                      }`}>
+                        {selectedChapters.includes(chapter.id) && (
+                          <CheckSquare size={16} className="text-white" />
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="fixed bottom-0 left-0 right-0 bg-background p-4 border-t flex justify-between space-x-2 max-w-md mx-auto">
+              <Button 
+                className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800"
+                onClick={onClose}
+              >
+                Add Blueprint
+              </Button>
+              <Button 
+                className="flex-1 bg-[#FF5722] hover:bg-[#E64A19]"
+                onClick={handleProceed}
+              >
+                Proceed Without Blueprint
+              </Button>
+            </div>
           </div>
-        </div>
-      </SheetContent>
-    </Sheet>
+        </SheetContent>
+      </Sheet>
+
+      <QuestionsByMark 
+        isOpen={isQuestionsByMarkOpen} 
+        onClose={() => setIsQuestionsByMarkOpen(false)} 
+      />
+    </>
   );
 };
 
