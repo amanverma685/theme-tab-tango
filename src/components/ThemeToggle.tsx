@@ -10,10 +10,14 @@ export function ThemeToggle() {
     <motion.button
       whileTap={{ scale: 0.9 }}
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="p-2 rounded-full bg-secondary border border-border"
+      className="p-2 rounded-full bg-secondary border border-border transition-colors"
       aria-label="Toggle theme"
     >
-      {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+      {theme === "dark" ? (
+        <Sun size={18} className="text-brand-600" />
+      ) : (
+        <Moon size={18} className="text-brand-600" />
+      )}
     </motion.button>
   );
 }

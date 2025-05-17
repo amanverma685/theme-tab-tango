@@ -7,10 +7,26 @@ import { motion } from 'framer-motion';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { useProfile } from '@/contexts/ProfileContext';
 import { toast } from 'sonner';
+import UpgradePlans from '@/components/UpgradePlans';
+import SubjectSelector from '@/components/SubjectSelector';
+import ClassSelector from '@/components/ClassSelector';
+import ModeSelector from '@/components/ModeSelector';
+import ChapterSelector from '@/components/ChapterSelector';
+import Questions from '@/components/Questions';
+import BoardSelector from '@/components/BoardSelector';
 
 const Profile = () => {
   const { profile, updateProfile, isEditing, setIsEditing } = useProfile();
   const [formData, setFormData] = useState(profile);
+  
+  // Sheet states
+  const [showUpgradePlans, setShowUpgradePlans] = useState(false);
+  const [showSubjectSelector, setShowSubjectSelector] = useState(false);
+  const [showClassSelector, setShowClassSelector] = useState(false);
+  const [showModeSelector, setShowModeSelector] = useState(false);
+  const [showChapterSelector, setShowChapterSelector] = useState(false);
+  const [showQuestions, setShowQuestions] = useState(false);
+  const [showBoardSelector, setShowBoardSelector] = useState(false);
   
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -87,9 +103,62 @@ const Profile = () => {
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           className="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 px-4 rounded-lg mt-4 mb-6 transition-all"
+          onClick={() => setShowUpgradePlans(true)}
         >
           UPGRADE PLAN
         </motion.button>
+        
+        {/* Demo buttons for opening each screen */}
+        <div className="flex flex-wrap gap-2 mb-6">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="text-xs"
+            onClick={() => setShowSubjectSelector(true)}
+          >
+            Open Subjects
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="text-xs"
+            onClick={() => setShowClassSelector(true)}
+          >
+            Open Classes
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="text-xs"
+            onClick={() => setShowModeSelector(true)}
+          >
+            Open Modes
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="text-xs"
+            onClick={() => setShowChapterSelector(true)}
+          >
+            Open Chapters
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="text-xs"
+            onClick={() => setShowQuestions(true)}
+          >
+            Open Questions
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="text-xs"
+            onClick={() => setShowBoardSelector(true)}
+          >
+            Open Boards
+          </Button>
+        </div>
       </motion.div>
 
       {/* Profile Avatar */}
@@ -173,6 +242,15 @@ const Profile = () => {
           </motion.div>
         )}
       </form>
+      
+      {/* Modal Sheets for each screen */}
+      <UpgradePlans isOpen={showUpgradePlans} onClose={() => setShowUpgradePlans(false)} />
+      <SubjectSelector isOpen={showSubjectSelector} onClose={() => setShowSubjectSelector(false)} />
+      <ClassSelector isOpen={showClassSelector} onClose={() => setShowClassSelector(false)} />
+      <ModeSelector isOpen={showModeSelector} onClose={() => setShowModeSelector(false)} />
+      <ChapterSelector isOpen={showChapterSelector} onClose={() => setShowChapterSelector(false)} />
+      <Questions isOpen={showQuestions} onClose={() => setShowQuestions(false)} />
+      <BoardSelector isOpen={showBoardSelector} onClose={() => setShowBoardSelector(false)} />
     </motion.div>
   );
 };
