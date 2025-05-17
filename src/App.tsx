@@ -14,6 +14,12 @@ import Profile from "./pages/Profile";
 import AddResource from "./pages/AddResource";
 import NotFound from "./pages/NotFound";
 import PaymentHelp from "./pages/PaymentHelp";
+import DownloadPaper from "./pages/DownloadPaper";
+import PaperDetails from "./pages/PaperDetails";
+import EditPaper from "./pages/EditPaper";
+import QuizSetup from "./pages/QuizSetup";
+import Quiz from "./pages/Quiz";
+import QuizResults from "./pages/QuizResults";
 
 // Placeholder pages for demonstration
 const SubjectsPage = () => <div className="p-6 pt-20 pb-20 text-center">Subjects Page</div>;
@@ -41,7 +47,17 @@ const App = () => (
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/add" element={<AddResource />} />
                 
-                {/* New routes for the added functionality */}
+                {/* Paper routes */}
+                <Route path="/download-paper/:id" element={<DownloadPaper />} />
+                <Route path="/paper-details" element={<PaperDetails />} />
+                <Route path="/edit-paper/:id" element={<EditPaper />} />
+                
+                {/* Quiz routes */}
+                <Route path="/quiz-setup" element={<QuizSetup />} />
+                <Route path="/quiz" element={<Quiz />} />
+                <Route path="/quiz-results" element={<QuizResults />} />
+                
+                {/* Original routes from previous implementation */}
                 <Route path="/subjects" element={<SubjectsPage />} />
                 <Route path="/chapters/:subjectId" element={<ChaptersPage />} />
                 <Route path="/questions" element={<QuestionsPage />} />

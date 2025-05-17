@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
+import { useProfile } from '@/contexts/ProfileContext';
 
 interface NavItem {
   path: string;
@@ -13,37 +14,21 @@ interface NavItem {
 
 const BottomNavigation = ({ items }: { items: NavItem[] }) => {
   const location = useLocation();
+  const { profile } = useProfile();
   const [activeTab, setActiveTab] = useState(location.pathname);
-  const [navColors, setNavColors] = useState<string[]>([
-    'bg-brand-500',
-    'bg-brand-600',
-    'bg-brand-700',
-    'bg-brand-800'
-  ]);
 
   useEffect(() => {
     setActiveTab(location.pathname);
-    
-    // Rotate colors when tab changes
-    setNavColors(prev => {
-      const [first, ...rest] = prev;
-      return [...rest, first];
-    });
   }, [location.pathname]);
-
-  const getActiveColor = (path: string) => {
-    const index = items.findIndex(item => item.path === path);
-    return index !== -1 ? navColors[index % navColors.length] : navColors[0];
-  };
 
   return (
     <motion.div 
       className={cn(
         "bottom-nav",
         "flex items-center justify-around shadow-lg",
-        "dark:border-t dark:border-gray-800 rounded-t-xl",
-        getActiveColor(activeTab)
+        "dark:border-t dark:border-gray-800 rounded-t-xl"
       )}
+      style={{ backgroundColor: profile.themeColor }}
       initial={{ y: 100 }}
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 260, damping: 20 }}

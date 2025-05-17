@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { RefreshCw, User, Edit, Check } from 'lucide-react';
+import { RefreshCw, User, Edit, Check, Palette } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { motion } from 'framer-motion';
@@ -14,6 +14,7 @@ import ModeSelector from '@/components/ModeSelector';
 import ChapterSelector from '@/components/ChapterSelector';
 import Questions from '@/components/Questions';
 import BoardSelector from '@/components/BoardSelector';
+import ThemeColorPicker from '@/components/ThemeColorPicker';
 
 const Profile = () => {
   const { profile, updateProfile, isEditing, setIsEditing } = useProfile();
@@ -27,6 +28,7 @@ const Profile = () => {
   const [showChapterSelector, setShowChapterSelector] = useState(false);
   const [showQuestions, setShowQuestions] = useState(false);
   const [showBoardSelector, setShowBoardSelector] = useState(false);
+  const [showThemeColorPicker, setShowThemeColorPicker] = useState(false);
   
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -63,6 +65,15 @@ const Profile = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-brand-600">Profile</h1>
         <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setShowThemeColorPicker(true)}
+            aria-label="Change theme color"
+            className="border-brand-200"
+          >
+            <Palette size={18} className="text-brand-600" />
+          </Button>
           <ThemeToggle />
           <Button
             variant="outline"
@@ -251,6 +262,7 @@ const Profile = () => {
       <ChapterSelector isOpen={showChapterSelector} onClose={() => setShowChapterSelector(false)} />
       <Questions isOpen={showQuestions} onClose={() => setShowQuestions(false)} />
       <BoardSelector isOpen={showBoardSelector} onClose={() => setShowBoardSelector(false)} />
+      <ThemeColorPicker isOpen={showThemeColorPicker} onClose={() => setShowThemeColorPicker(false)} />
     </motion.div>
   );
 };
